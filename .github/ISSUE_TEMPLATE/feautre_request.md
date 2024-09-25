@@ -1,5 +1,6 @@
 ---
 name: "Feature request"
+about: Use this template for tracking new features.
 title: "Feature: [Enter a descriptive title]"
 labels: ["feature"]
 assignees: ["the9kim"]
