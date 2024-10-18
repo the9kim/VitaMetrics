@@ -36,6 +36,6 @@ class SleepRecordTest {
         assertThatThrownBy(() ->
                 new SleepRecord(bedTime, wakeTime, quality))
                 .isInstanceOf(SleepRecordException.class)
-                .hasMessage("기상 시간은 취침 시간보다 빠를 수 없습니다. - request info {bed_time: 2024-12-31T23:00, wake_time: 2024-01-01T07:00");
+                .hasMessage(String.format("Invalid temporal order: bedTime (%s) is after wakeTime (%s)", bedTime, wakeTime));
     }
 }
