@@ -10,8 +10,16 @@ public class SleepRecordException extends RuntimeException {
 
 
     public static class TemporalOrderException extends SleepRecordException {
-        public TemporalOrderException(String bedTime, String wakeTime) {
-            super(String.format("기상 시간은 취침 시간보다 빠를 수 없습니다. - request info {bed_time: %s, wake_time: %s", bedTime, wakeTime));
+        public TemporalOrderException(LocalDateTime bedTime, LocalDateTime wakeTime) {
+            super(String.format("Invalid temporal order: bedTime (%s) is after wakeTime (%s)", bedTime, wakeTime));
+        }
+    }
+
+    public static class NonExistSleepRecordException extends SleepRecordException {
+        public NonExistSleepRecordException(Long sleepRecordId) {
+            super(String.format(
+                    "sleep record not found - request details {sleep_record_id: %d}", sleepRecordId)
+            );
         }
     }
 
