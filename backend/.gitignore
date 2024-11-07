@@ -54,3 +54,49 @@ bin/
 .classpath
 .project
 .settings/
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# macOS specific files
+.DS_Store
+
+# Database files
+*.db
+*.sql
+*.h2.db
+*.mv.db
+*.trace.db
+
+# Junit test reports
+TEST-*.xml
+
+# Junit archives
+*.junit
+
+# Maven wrapper (optional)
+!.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+.mvn/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Operating system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
