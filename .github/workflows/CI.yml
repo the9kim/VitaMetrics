@@ -30,9 +30,12 @@ jobs:
         run: |
             sudo timedatectl set-timezone Asia/Seoul
 
+      - name: Give permission for Gradle
+        run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
-
+        
       - name: Write Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
