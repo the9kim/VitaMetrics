@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import joblib
 import pandas as pd
 
@@ -6,7 +7,8 @@ import pandas as pd
 class SleepAnalysisService:
 
     def __init__(self):
-        self.model = self.load_model('/Users/the9kim/VitaMetrics/data_analysis/vitametric_analysis/sleep_prediction_model.pkl')
+        self.model = self.load_model(
+            '/Users/the9kim/VitaMetrics/data_analysis/vitametric_analysis/sleep_prediction_model.pkl')
 
     @staticmethod
     def load_model(model_path):
@@ -15,9 +17,10 @@ class SleepAnalysisService:
         except FileNotFoundError:
             raise Exception(f"Model file not found at path: {model_path}")
 
-    def predict_sleep_duration(self, date: str) -> str:
-        date_obj = pd.to_datetime(date, errors='coerce')
-        if pd.isnull(date_obj):
+    def predict_sleep_duration(self, date: str) -> dict[str, int]:
+        try:
+            date_obj = datetime.strptime(date, '%Y-%m-%d')  # Ensure 'YYYY-MM-DD' format
+        except ValueError:
             raise ValueError("Invalid Date format. Use 'YYYY-MM-DD'.")
 
         input_data = self._prepare_input(date_obj)
@@ -46,18 +49,13 @@ class SleepAnalysisService:
         return sleep_data
 
     @staticmethod
-    def _format_prediction(predicted_minutes: float) -> str:
+    def _format_prediction(predicted_minutes: float) -> dict[str, int]:
         hours = int(predicted_minutes // 60)
         minutes = int(predicted_minutes % 60)
+        return {"hours": hours, "minutes": minutes}
 
-        return f"The expected sleep duration is {hours} hours and {minutes} minutes"
 
 if __name__ == '__main__':
-
     service = SleepAnalysisService()
-    prediction = service.predict_sleep_duration('2024.11.17')
+    prediction = service.predict_sleep_duration('2024-11-17')
     print(prediction)
-
-
-
-
