@@ -49,4 +49,5 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> buildErrorResponse(final String message, final HttpStatus status) {
         return ResponseEntity.status(status).body(new ErrorResponse(status.getReasonPhrase(), message));
     }
+
 }
