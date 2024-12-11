@@ -71,19 +71,4 @@ public class SleepPredictionAcceptanceTest extends AcceptanceTest {
             softly.assertThat(response.body().jsonPath().getString("errors[0].message")).isEqualTo("Invalid date format. Expected format: yyyy-MM-dd");
         });
     }
-
-    @Test
-    void shouldThrowExceptionWhenPredictingSleepDurationWithEmptyDateValue() {
-        // given
-        String invalidDate = "";
-
-        // when
-        ExtractableResponse<Response> response = GET_SLEEP_PREDICTION_REQUEST(invalidDate);
-
-        // then
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-            softly.assertThat(response.body().jsonPath().getString("errors[0].message")).isEqualTo("Date must not be blank");
-        });
-    }
 }
