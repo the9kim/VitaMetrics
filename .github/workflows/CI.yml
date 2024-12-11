@@ -33,7 +33,7 @@ jobs:
         run: chmod +x backend/gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: backend/gradlew build
         
       - name: Write Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
