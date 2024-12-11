@@ -2,15 +2,14 @@ name: CI
 
 on:
   pull_request:
+    types: ['opened']
     branches:
       - main
-    paths: 
-      - 'backend/src/**'
       
 permissions:
   contents: read
   checks: write
-  pull-requests: read
+  pull-requests: write
 
 jobs:
   build:
