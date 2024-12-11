@@ -30,7 +30,7 @@ jobs:
             sudo timedatectl set-timezone Asia/Seoul
 
       - name: Give permission for Gradle
-        run: chmod +x gradlew
+        run: chmod +x backend/gradlew
 
       - name: Build with Gradle
         run: ./gradlew build
