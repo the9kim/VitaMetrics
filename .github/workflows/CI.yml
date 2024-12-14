@@ -5,6 +5,8 @@ on:
     types: ['opened', 'synchronize']
     branches:
       - main
+    paths:
+      - 'backend/src/**'
       
 permissions:
   contents: read
