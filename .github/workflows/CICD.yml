@@ -5,14 +5,15 @@ on:
     types: ['closed']
     branches:
       - main
-    # paths:
-      # - 'backend/src/**'
+    paths:
+      - 'backend/src/**'
 
 permissions:
   contents: read
 
 jobs:
   build-and-upload-artifacts:
+    if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
 
     steps:
