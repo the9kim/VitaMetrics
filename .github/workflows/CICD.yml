@@ -36,7 +36,33 @@ jobs:
       - name: Upload JAR file to Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: BackendApplication
+          name: BackendApplicationJAR
           path: backend/build/libs/*.jar
+
     
-    
+  deploy:
+    needs: build-and-upload-artifacts
+    runs-on: self-hosted
+    env:
+      DEV_DEPLOY_SCRIPT: ${{ secrets.BE_DEPLOY_SCRIPT }}
+      DEV_PROPERTY: ${{ secrets.BE_PROPERTY }}
+      
+    steps:
+      - name: Remove existing JAR file
+        run: rm -f ~/VitaMetrics/backend/build/libs/vitametrics*.jar
+
+      - name: Download JAR file from artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: BackendApplicationJAR
+          path: ~/VitaMetrics/backend/build/libs
+
+      - name: Set configuration file
+        run: echo "$BE_PROPERTY" > ~/VitaMetrics/backend/src/main/resources/application.yml
+
+      - name: Deloy to WAS
+        working-directory: /home/ubuntu/
+        run: |
+          echo "$BE_DEPLOY_SCRIPT" > deploy.sh
+          chmod 700 deploy.sh
+          sudo ./deploy.sh    
