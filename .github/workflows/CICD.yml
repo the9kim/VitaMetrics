@@ -1,0 +1,69 @@
+name: Deploy to production environment
+
+on: 
+  pull_request:
+    types: ['closed']
+    branches:
+      - main
+    paths:
+      - 'backend/src/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-upload-artifacts:
+    if: ${{ github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Give perssion for Gradle
+        run: chmod +x backend/gradlew
+
+      - name: Build with Gradle
+        run: |
+          cd backend
+          ./gradlew build
+
+      - name: Upload JAR file to Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: BackendApplicationJAR
+          path: backend/build/libs/*.jar
+
+    
+  deploy:
+    needs: build-and-upload-artifacts
+    runs-on: self-hosted
+    env:
+      BE_DEPLOY_SCRIPT: ${{ secrets.BE_DEPLOY_SCRIPT }}
+      BE_PROPERTY: ${{ secrets.BE_PROPERTY }}
+      
+    steps:
+      - name: Remove existing JAR file
+        run: rm -f ~/VitaMetrics/backend/build/libs/vitametrics*.jar
+
+      - name: Download JAR file from artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: BackendApplicationJAR
+          path: ~/VitaMetrics/backend/build/libs
+
+      - name: Set configuration file
+        run: echo "$BE_PROPERTY" > ~/VitaMetrics/backend/src/main/resources/application.yml
+
+      - name: Deloy to WAS
+        working-directory: /home/ubuntu/
+        run: |
+          echo "$BE_DEPLOY_SCRIPT" > deploy.sh
+          chmod 700 deploy.sh
+          sudo ./deploy.sh    
