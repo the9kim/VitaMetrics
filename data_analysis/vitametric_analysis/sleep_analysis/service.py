@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import joblib
@@ -7,8 +8,8 @@ import pandas as pd
 class SleepAnalysisService:
 
     def __init__(self):
-        self.model = self.load_model(
-            '/Users/the9kim/VitaMetrics/data_analysis/vitametric_analysis/sleep_prediction_model.pkl')
+        model_path = os.path.expanduser('~/VitaMetrics/data_analysis/vitametric_analysis/sleep_prediction_model.pkl')
+        self.model = self.load_model(model_path)
 
     @staticmethod
     def load_model(model_path):
