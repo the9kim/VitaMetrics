@@ -100,3 +100,6 @@ mvnw.cmd
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Configuration
+*.yml
