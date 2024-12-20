@@ -1,5 +1,5 @@
 """
-ASGI config for vitametric_analysis project.
+ASGI config for vitametrics_data project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vitametric_analysis.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vitametrics_data.settings')
 
 application = get_asgi_application()
