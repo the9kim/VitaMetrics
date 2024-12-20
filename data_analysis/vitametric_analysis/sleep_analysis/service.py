@@ -8,7 +8,8 @@ import pandas as pd
 class SleepAnalysisService:
 
     def __init__(self):
-        model_path = os.path.expanduser('~/VitaMetrics/data_analysis/vitametric_analysis/sleep_prediction_model.pkl')
+        model_path = os.getenv('MODEL_LOCATION', os.getcwd())
+        model_path = os.path.join(model_path, 'sleep_prediction_model.pkl')
         self.model = self.load_model(model_path)
 
     @staticmethod
