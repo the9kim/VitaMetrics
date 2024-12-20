@@ -5,8 +5,8 @@ on:
     types: ['opened', 'synchronize']
     branches:
       - main
-    # paths:
-      # - 'data_analysis/**'
+    paths:
+      - 'data_analysis/**'
 
 jobs:
   build:
