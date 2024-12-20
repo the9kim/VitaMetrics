@@ -30,4 +30,5 @@ jobs:
         env:
           MODEL_LOCATION: /home/runner/work/VitaMetrics/VitaMetrics/data_analysis/vitametric_analysis
         run: |
+          cd data_analysis/vitametric_analysis
           python manage.py test
