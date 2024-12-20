@@ -2,7 +2,7 @@ name: Deploy data analysis application to production environment
 
 on:
   pull_request:
-    types: ['closed']
+    types: ['opened']
     branches:
       - main
     # paths:
@@ -48,7 +48,7 @@ jobs:
       - name: Deploy 
         working-directory: /home/ubuntu
         run: |
-          echo "$DA_DEPLOY_SCRIPT > da_deploy.sh
+          echo "$DA_DEPLOY_SCRIPT" > da_deploy.sh
           chmod 700 da_deploy.sh
           sudo ./da_deploy.sh
       
