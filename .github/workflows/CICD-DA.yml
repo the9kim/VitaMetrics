@@ -1,0 +1,54 @@
+name: Deploy data analysis application to production environment
+
+on:
+  pull_request:
+    types: ['closed']
+    branches:
+      - main
+    # paths:
+    #   - 'data_analysis/**'
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    # if: ${{ github.event.pull_request.merged == true}}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd data_analysis/vitametric_analysis
+          pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          MODEL_LOCATION: /home/runner/work/VitaMetrics/VitaMetrics/data_analysis_vitametric_analysis
+        run: |
+          cd data_analysis/vitametric_analysis
+          python manage.py test
+
+  cd:
+    needs: ci
+    runs-on: self-hosted
+    env:
+      DA_DEPLOY_SCRIPT: ${{ secrets.DA_DEPLOY_SCRIPT }}
+
+    steps:
+      - name: Deploy 
+        working-directory: /home/ubuntu
+        run: |
+          echo "$DA_DEPLOY_SCRIPT > da_deploy.sh
+          chmod 700 da_deploy.sh
+          sudo ./da_deploy.sh
+      
