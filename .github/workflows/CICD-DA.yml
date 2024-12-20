@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  ci:
+  CI:
     # if: ${{ github.event.pull_request.merged == true}}
     runs-on: ubuntu-latest
 
@@ -33,13 +33,13 @@ jobs:
 
       - name: Run tests
         env:
-          MODEL_LOCATION: /home/runner/work/VitaMetrics/VitaMetrics/data_analysis_vitametric_analysis
+          MODEL_LOCATION: /home/runner/work/VitaMetrics/VitaMetrics/data_analysis/vitametric_analysis
         run: |
           cd data_analysis/vitametric_analysis
           python manage.py test
 
-  cd:
-    needs: ci
+  CD:
+    needs: CI
     runs-on: self-hosted
     env:
       DA_DEPLOY_SCRIPT: ${{ secrets.DA_DEPLOY_SCRIPT }}
