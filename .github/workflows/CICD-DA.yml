@@ -2,18 +2,18 @@ name: Deploy data analysis application to production environment
 
 on:
   pull_request:
-    types: ['opened']
+    types: ['closed']
     branches:
       - main
-    # paths:
-    #   - 'data_analysis/**'
+    paths:
+      - 'data_analysis/**'
 
 permissions:
   contents: read
 
 jobs:
   CI:
-    # if: ${{ github.event.pull_request.merged == true}}
+    if: ${{ github.event.pull_request.merged == true}}
     runs-on: ubuntu-latest
 
     steps:
