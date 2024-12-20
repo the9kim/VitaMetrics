@@ -1,0 +1,33 @@
+name: CI for Data analysis component
+
+on:
+  pull_request:
+    types: ['opened', 'synchronize']
+    branches:
+      - main
+    # paths:
+      # - 'data_analysis/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd data_analysis/vitametric_analysis
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd data_analysis/vitametric_analysis
+          python manage.py test
