@@ -1,20 +1,19 @@
-name: CI for Data analysis component
+name: Deploy data analysis application to production environment
 
 on:
   pull_request:
-    types: ['opened', 'synchronize']
+    types: ['closed']
     branches:
       - main
     paths:
       - 'data_analysis/**'
-      
+
 permissions:
   contents: read
-  checks: write
-  pull-requests: write
 
 jobs:
-  build:
+  CI:
+    if: ${{ github.event.pull_request.merged == true}}
     runs-on: ubuntu-latest
 
     steps:
@@ -31,9 +30,25 @@ jobs:
           python -m pip install --upgrade pip
           cd data_analysis/vitametric_analysis
           pip install -r requirements.txt
+
       - name: Run tests
         env:
           MODEL_LOCATION: /home/runner/work/VitaMetrics/VitaMetrics/data_analysis/vitametric_analysis
         run: |
           cd data_analysis/vitametric_analysis
           python manage.py test
+
+  CD:
+    needs: CI
+    runs-on: self-hosted
+    env:
+      DA_DEPLOY_SCRIPT: ${{ secrets.DA_DEPLOY_SCRIPT }}
+
+    steps:
+      - name: Deploy 
+        working-directory: /home/ubuntu
+        run: |
+          echo "$DA_DEPLOY_SCRIPT" > da_deploy.sh
+          chmod 700 da_deploy.sh
+          sudo ./da_deploy.sh
+      
