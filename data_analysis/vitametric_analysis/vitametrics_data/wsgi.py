@@ -1,5 +1,5 @@
 """
-WSGI config for vitametric_analysis project.
+WSGI config for vitametrics_data project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vitametric_analysis.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vitametrics_data.settings')
 
 application = get_wsgi_application()
